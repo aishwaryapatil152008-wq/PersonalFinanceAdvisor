@@ -1,0 +1,154 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="light">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>{% block title %}FinanceAI — AI-Powered Personal Finance Advisor{% endblock %}</title>
+    
+    <!-- Custom CSS Design System -->
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
+    
+    <!-- FontAwesome 6 CDN -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    
+    <!-- Google Fonts Inter -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&display=swap" rel="stylesheet">
+    
+    <!-- Chart.js CDN -->
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+
+    <!-- Theme Preference Initialization -->
+    <script>
+        (function() {
+            const savedTheme = localStorage.getItem('financeai_theme') || 'light';
+            document.documentElement.setAttribute('data-theme', savedTheme);
+        })();
+    </script>
+</head>
+<body>
+
+    <!-- Sticky Glassmorphism Navigation Bar -->
+    <nav class="navbar" id="mainNavbar">
+        <div class="nav-container">
+            <a href="{{ url_for('main_bp.index') }}" class="brand-logo">
+                <div class="brand-icon-box">
+                    <i class="fas fa-chart-line"></i>
+                </div>
+                <span>Finance<span class="brand-highlight">AI</span></span>
+            </a>
+
+            <button class="menu-toggle" id="menuToggle" aria-label="Toggle Navigation Menu">
+                <i class="fas fa-bars"></i>
+            </button>
+
+            <ul class="nav-links" id="navLinks">
+                <li class="nav-item">
+                    <a href="{{ url_for('main_bp.index') }}" class="{% if request.endpoint == 'main_bp.index' %}active{% endif %}">
+                        <i class="fas fa-home"></i> Home
+                    </a>
+                </li>
+                <li class="nav-item">
+                    <a href="{{ url_for('main_bp.dashboard') }}" class="{% if request.endpoint == 'main_bp.dashboard' %}active{% endif %}">
+                        <i class="fas fa-columns"></i> Dashboard
+                    </a>
+                </li>
+                <li class="nav-item">
+                    <a href="{{ url_for('main_bp.transactions') }}" class="{% if request.endpoint == 'main_bp.transactions' %}active{% endif %}">
+                        <i class="fas fa-receipt"></i> Ledger
+                    </a>
+                </li>
+                <li class="nav-item">
+                    <a href="{{ url_for('main_bp.budget') }}" class="{% if request.endpoint == 'main_bp.budget' %}active{% endif %}">
+                        <i class="fas fa-bullseye"></i> Budget
+                    </a>
+                </li>
+                <li class="nav-item">
+                    <a href="{{ url_for('main_bp.analytics') }}" class="{% if request.endpoint == 'main_bp.analytics' %}active{% endif %}">
+                        <i class="fas fa-chart-pie"></i> Insights
+                    </a>
+                </li>
+            </ul>
+
+            <div class="nav-right-actions">
+                <a href="{{ url_for('main_bp.chatbot') }}" class="nav-ai-badge">
+                    <i class="fas fa-robot"></i> AI Advisor
+                </a>
+
+                <button class="theme-toggle-btn" id="themeToggleBtn" title="Toggle Theme" aria-label="Toggle Theme">
+                    <i class="fas fa-moon" id="themeIcon"></i>
+                </button>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Main Content Container -->
+    <main class="main-wrapper">
+        {% block content %}{% endblock %}
+    </main>
+
+    <!-- Professional Footer -->
+    <footer class="footer">
+        <div style="max-width: 1280px; margin: 0 auto; display: flex; flex-direction: column; gap: 0.5rem; align-items: center;">
+            <p style="font-weight: 700; color: #f8fafc; font-size: 1rem; letter-spacing: -0.01em;">
+                FinanceAI — AI-powered personal financial insights
+            </p>
+            <p style="font-size: 0.85rem; color: #94a3b8;">
+                Built with Flask + Gemini AI &bull; Smart &bull; Personalized &bull; Data-Driven
+            </p>
+        </div>
+    </footer>
+
+    <!-- Global Navigation & Theme JavaScript -->
+    <script>
+        // Scroll Effect for Navbar
+        window.addEventListener('scroll', () => {
+            const navbar = document.getElementById('mainNavbar');
+            if (window.scrollY > 20) {
+                navbar.classList.add('scrolled');
+            } else {
+                navbar.classList.remove('scrolled');
+            }
+        });
+
+        // Mobile Menu Drawer Toggle
+        const menuToggle = document.getElementById('menuToggle');
+        const navLinks = document.getElementById('navLinks');
+        if (menuToggle && navLinks) {
+            menuToggle.addEventListener('click', () => {
+                navLinks.classList.toggle('active');
+            });
+        }
+
+        // Theme Switcher Toggle (Light/Dark)
+        const themeToggleBtn = document.getElementById('themeToggleBtn');
+        const themeIcon = document.getElementById('themeIcon');
+        
+        function updateThemeIcon(theme) {
+            if (themeIcon) {
+                if (theme === 'dark') {
+                    themeIcon.className = 'fas fa-sun';
+                } else {
+                    themeIcon.className = 'fas fa-moon';
+                }
+            }
+        }
+
+        const currentTheme = document.documentElement.getAttribute('data-theme') || 'light';
+        updateThemeIcon(currentTheme);
+
+        if (themeToggleBtn) {
+            themeToggleBtn.addEventListener('click', () => {
+                const activeTheme = document.documentElement.getAttribute('data-theme');
+                const newTheme = activeTheme === 'dark' ? 'light' : 'dark';
+                document.documentElement.setAttribute('data-theme', newTheme);
+                localStorage.setItem('financeai_theme', newTheme);
+                updateThemeIcon(newTheme);
+            });
+        }
+    </script>
+    
+    {% block scripts %}{% endblock %}
+</body>
+</html>

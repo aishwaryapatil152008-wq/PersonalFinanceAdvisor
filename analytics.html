@@ -1,0 +1,70 @@
+{% extends "base.html" %}
+
+{% block title %}Financial Analytics — FinanceAI{% endblock %}
+
+{% block content %}
+<div class="page-header">
+    <div>
+        <h1 class="page-title">Financial Analytics & Insights</h1>
+        <p class="page-subtitle">Interactive visual charts for income vs expenses, category distribution, and monthly spending trends.</p>
+    </div>
+
+    <div style="display: flex; align-items: center; gap: 0.6rem;">
+        <label class="form-label" style="margin-bottom:0; font-weight:700;"><i class="fas fa-calendar"></i> Year:</label>
+        <select class="form-select" id="analytics-year-filter" style="width: 130px;">
+            <option value="2025">2025</option>
+            <option value="2026" selected>2026</option>
+            <option value="2027">2027</option>
+        </select>
+    </div>
+</div>
+
+<!-- Charts Grid -->
+<div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(480px, 1fr)); gap: 1.75rem; margin-bottom: 2.5rem;">
+
+    <!-- Chart 1: Income vs Expense -->
+    <div class="table-card" style="padding: 1.75rem;">
+        <h3 style="font-size: 1.15rem; font-weight: 800; color: var(--text-primary); margin-bottom: 1.25rem;">
+            <i class="fas fa-chart-bar" style="color:var(--primary-blue); margin-right:0.35rem;"></i> Monthly Income vs Expenses
+        </h3>
+        <div style="height: 300px; position: relative;">
+            <canvas id="incomeExpenseChart"></canvas>
+        </div>
+    </div>
+
+    <!-- Chart 2: Expenses by Category -->
+    <div class="table-card" style="padding: 1.75rem;">
+        <h3 style="font-size: 1.15rem; font-weight: 800; color: var(--text-primary); margin-bottom: 1.25rem;">
+            <i class="fas fa-chart-pie" style="color:var(--danger-red); margin-right:0.35rem;"></i> Expense Breakdown by Category
+        </h3>
+        <div style="height: 300px; position: relative;">
+            <canvas id="categoryPieChart"></canvas>
+        </div>
+    </div>
+
+    <!-- Chart 3: Monthly Spending Trend -->
+    <div class="table-card" style="padding: 1.75rem;">
+        <h3 style="font-size: 1.15rem; font-weight: 800; color: var(--text-primary); margin-bottom: 1.25rem;">
+            <i class="fas fa-chart-line" style="color:var(--warning-orange); margin-right:0.35rem;"></i> Monthly Expense Trend
+        </h3>
+        <div style="height: 300px; position: relative;">
+            <canvas id="spendingTrendChart"></canvas>
+        </div>
+    </div>
+
+    <!-- Chart 4: Savings Trend -->
+    <div class="table-card" style="padding: 1.75rem;">
+        <h3 style="font-size: 1.15rem; font-weight: 800; color: var(--text-primary); margin-bottom: 1.25rem;">
+            <i class="fas fa-piggy-bank" style="color:var(--ai-purple); margin-right:0.35rem;"></i> Net Monthly Savings Trend
+        </h3>
+        <div style="height: 300px; position: relative;">
+            <canvas id="savingsTrendChart"></canvas>
+        </div>
+    </div>
+
+</div>
+{% endblock %}
+
+{% block scripts %}
+<script src="{{ url_for('static', filename='js/analytics.js') }}"></script>
+{% endblock %}

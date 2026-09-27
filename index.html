@@ -1,0 +1,456 @@
+{% extends "base.html" %}
+
+{% block title %}FinanceAI — Take Control of Your Finances with AI{% endblock %}
+
+{% block content %}
+<div style="padding: 1rem 0;">
+
+    <!-- ==========================================
+         1. HERO / HEADER SECTION
+         ========================================== -->
+    <div class="hero-card">
+        <div class="hero-glow-bg"></div>
+        
+        <div class="hero-content">
+            <div class="badge-hero">
+                <i class="fas fa-sparkles"></i> AI-POWERED FINANCIAL ASSISTANT
+            </div>
+            
+            <h1 class="hero-title">
+                Take Control of Your Finances with <span class="text-gradient">AI Guidance</span>
+            </h1>
+            
+            <p class="hero-subtitle">
+                Understand your spending, build smarter budgets, and reach your financial goals with personalized AI insights.
+            </p>
+            
+            <div class="hero-actions">
+                <a href="#analyzerSection" class="btn btn-analyze" style="padding: 0.9rem 2.2rem; font-size: 1.05rem;">
+                    Analyze My Finances <i class="fas fa-arrow-right"></i>
+                </a>
+                
+                <a href="{{ url_for('main_bp.chatbot') }}" class="btn btn-ai" style="padding: 0.9rem 1.75rem; font-size: 1rem;">
+                    <i class="fas fa-robot"></i> Open AI Assistant
+                </a>
+            </div>
+
+            <div class="hero-trust-bar">
+                <div class="hero-trust-item"><i class="fas fa-check-circle"></i> Smart</div>
+                <div class="hero-trust-item">&bull;</div>
+                <div class="hero-trust-item"><i class="fas fa-check-circle"></i> Personalized</div>
+                <div class="hero-trust-item">&bull;</div>
+                <div class="hero-trust-item"><i class="fas fa-check-circle"></i> Data-Driven</div>
+            </div>
+        </div>
+
+        <!-- Abstract Financial/AI CSS Graphic -->
+        <div class="hero-graphic">
+            <div class="graphic-card graphic-card-1">
+                <div style="display: flex; align-items: center; justify-content: space-between; margin-bottom: 0.5rem;">
+                    <span style="font-size: 0.78rem; color: #94a3b8; font-weight: 700;">AI SAVINGS RATE</span>
+                    <i class="fas fa-chart-line" style="color: #38bdf8;"></i>
+                </div>
+                <div style="font-size: 1.5rem; font-weight: 900; color: #ffffff;">+24.5%</div>
+                <div style="font-size: 0.75rem; color: #34d399; margin-top: 0.25rem;"><i class="fas fa-arrow-up"></i> Optimized by Gemini</div>
+            </div>
+
+            <div class="graphic-card graphic-card-2">
+                <div style="display: flex; align-items: center; gap: 0.75rem;">
+                    <div style="width: 38px; height: 38px; background: rgba(139, 92, 246, 0.2); border-radius: 50%; display: flex; align-items: center; justify-content: center; color: #c084fc;">
+                        <i class="fas fa-robot"></i>
+                    </div>
+                    <div>
+                        <div style="font-size: 0.85rem; font-weight: 700; color: #ffffff;">Financial Health</div>
+                        <div style="font-size: 0.78rem; color: #38bdf8;">Score: 88/100 (Excellent)</div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- ==========================================
+         3. MAIN INPUT DASHBOARD FORM
+         ========================================== -->
+    <div class="section-card" id="analyzerSection">
+        <div class="section-header">
+            <h2 class="section-title">Tell us about your finances</h2>
+            <p class="section-subtitle">Enter your monthly income and expenses to receive personalized recommendations.</p>
+        </div>
+
+        <form id="analyzerForm">
+            <div class="input-dashboard-grid">
+                
+                <!-- INCOME COLUMN -->
+                <div>
+                    <div class="income-box-card">
+                        <label class="form-label" style="font-size: 1rem; margin-bottom: 0.75rem;">
+                            <i class="fas fa-wallet" style="color:var(--emerald-600); margin-right: 0.35rem;"></i> Monthly Income
+                        </label>
+                        
+                        <div class="input-prefix-wrapper">
+                            <span class="input-prefix">₹</span>
+                            <input type="number" min="0" step="100" class="form-control input-large" id="inputIncome" placeholder="50,000" value="45000" required>
+                        </div>
+                        
+                        <div class="input-helper-text">
+                            <i class="fas fa-info-circle"></i> Your total monthly income after taxes.
+                        </div>
+                    </div>
+                </div>
+
+                <!-- EXPENSES COLUMN GRID -->
+                <div>
+                    <label class="form-label" style="font-size: 1rem; margin-bottom: 0.75rem;">
+                        <i class="fas fa-receipt" style="color:var(--primary-blue); margin-right: 0.35rem;"></i> Monthly Expenses by Category
+                    </label>
+
+                    <div class="expenses-cards-grid">
+                        <!-- Rent -->
+                        <div class="category-input-card">
+                            <div class="category-card-header">
+                                <div class="category-icon-box cat-rent"><i class="fas fa-house"></i></div>
+                                <span class="category-title">Rent</span>
+                            </div>
+                            <div class="category-input-wrapper">
+                                <span class="category-input-prefix">₹</span>
+                                <input type="number" min="0" class="form-control category-input" id="inputRent" placeholder="0" value="12000">
+                            </div>
+                        </div>
+
+                        <!-- Food -->
+                        <div class="category-input-card">
+                            <div class="category-card-header">
+                                <div class="category-icon-box cat-food"><i class="fas fa-utensils"></i></div>
+                                <span class="category-title">Food</span>
+                            </div>
+                            <div class="category-input-wrapper">
+                                <span class="category-input-prefix">₹</span>
+                                <input type="number" min="0" class="form-control category-input" id="inputFood" placeholder="0" value="5500">
+                            </div>
+                        </div>
+
+                        <!-- Transport -->
+                        <div class="category-input-card">
+                            <div class="category-card-header">
+                                <div class="category-icon-box cat-transport"><i class="fas fa-car"></i></div>
+                                <span class="category-title">Transport</span>
+                            </div>
+                            <div class="category-input-wrapper">
+                                <span class="category-input-prefix">₹</span>
+                                <input type="number" min="0" class="form-control category-input" id="inputTransport" placeholder="0" value="2500">
+                            </div>
+                        </div>
+
+                        <!-- Dining -->
+                        <div class="category-input-card">
+                            <div class="category-card-header">
+                                <div class="category-icon-box cat-dining"><i class="fas fa-bowl-food"></i></div>
+                                <span class="category-title">Dining</span>
+                            </div>
+                            <div class="category-input-wrapper">
+                                <span class="category-input-prefix">₹</span>
+                                <input type="number" min="0" class="form-control category-input" id="inputDining" placeholder="0" value="3000">
+                            </div>
+                        </div>
+
+                        <!-- Entertainment -->
+                        <div class="category-input-card">
+                            <div class="category-card-header">
+                                <div class="category-icon-box cat-entertainment"><i class="fas fa-film"></i></div>
+                                <span class="category-title">Entertainment</span>
+                            </div>
+                            <div class="category-input-wrapper">
+                                <span class="category-input-prefix">₹</span>
+                                <input type="number" min="0" class="form-control category-input" id="inputEntertainment" placeholder="0" value="2000">
+                            </div>
+                        </div>
+
+                        <!-- Utilities -->
+                        <div class="category-input-card">
+                            <div class="category-card-header">
+                                <div class="category-icon-box cat-utilities"><i class="fas fa-bolt"></i></div>
+                                <span class="category-title">Utilities</span>
+                            </div>
+                            <div class="category-input-wrapper">
+                                <span class="category-input-prefix">₹</span>
+                                <input type="number" min="0" class="form-control category-input" id="inputUtilities" placeholder="0" value="3000">
+                            </div>
+                        </div>
+
+                        <!-- Savings -->
+                        <div class="category-input-card">
+                            <div class="category-card-header">
+                                <div class="category-icon-box cat-savings"><i class="fas fa-piggy-bank"></i></div>
+                                <span class="category-title">Savings</span>
+                            </div>
+                            <div class="category-input-wrapper">
+                                <span class="category-input-prefix">₹</span>
+                                <input type="number" min="0" class="form-control category-input" id="inputSavings" placeholder="0" value="8000">
+                            </div>
+                        </div>
+
+                        <!-- Other -->
+                        <div class="category-input-card">
+                            <div class="category-card-header">
+                                <div class="category-icon-box cat-other"><i class="fas fa-layer-group"></i></div>
+                                <span class="category-title">Other</span>
+                            </div>
+                            <div class="category-input-wrapper">
+                                <span class="category-input-prefix">₹</span>
+                                <input type="number" min="0" class="form-control category-input" id="inputOther" placeholder="0" value="2000">
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+            </div>
+
+            <!-- ==========================================
+                 4. FINANCIAL GOAL SELECTOR
+                 ========================================== -->
+            <div style="margin-top: 2.5rem;">
+                <div class="section-header" style="margin-bottom: 1rem;">
+                    <h3 class="section-title" style="font-size: 1.3rem;">What are you working toward?</h3>
+                    <p class="section-subtitle">Select your primary financial target to customize AI recommendations.</p>
+                </div>
+
+                <div class="goals-grid">
+                    <div class="goal-card active" data-goal="Emergency Fund">
+                        <div class="goal-check-badge"><i class="fas fa-check"></i></div>
+                        <div class="goal-icon cat-savings"><i class="fas fa-shield-alt"></i></div>
+                        <div class="goal-name">Emergency Fund</div>
+                        <div class="goal-desc">Build 3–6 months of essential cash buffer</div>
+                    </div>
+
+                    <div class="goal-card" data-goal="Vacation">
+                        <div class="goal-check-badge"><i class="fas fa-check"></i></div>
+                        <div class="goal-icon cat-transport"><i class="fas fa-plane"></i></div>
+                        <div class="goal-name">Vacation</div>
+                        <div class="goal-desc">Save for travel & holiday experiences</div>
+                    </div>
+
+                    <div class="goal-card" data-goal="Gadget Purchase">
+                        <div class="goal-check-badge"><i class="fas fa-check"></i></div>
+                        <div class="goal-icon cat-utilities"><i class="fas fa-mobile-screen"></i></div>
+                        <div class="goal-name">Gadget Purchase</div>
+                        <div class="goal-desc">Plan for laptop, tech or smartphone</div>
+                    </div>
+
+                    <div class="goal-card" data-goal="Investment">
+                        <div class="goal-check-badge"><i class="fas fa-check"></i></div>
+                        <div class="goal-icon cat-rent"><i class="fas fa-chart-line"></i></div>
+                        <div class="goal-name">Investment</div>
+                        <div class="goal-desc">Grow wealth with mutual funds & stocks</div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- ==========================================
+                 5. ANALYZE BUTTON CTA
+                 ========================================== -->
+            <div class="analyze-cta-wrapper">
+                <button type="submit" class="btn-analyze" id="analyzeBtn">
+                    <i class="fas fa-chart-line"></i> Analyze My Finances <i class="fas fa-arrow-right"></i>
+                </button>
+            </div>
+        </form>
+    </div>
+
+    <!-- ==========================================
+         6. AI PROCESSING EXPERIENCE OVERLAY
+         ========================================== -->
+    <div class="ai-processing-card" id="aiProcessingCard">
+        <div class="processing-pulse-glow"></div>
+        <div class="processing-header">
+            <div style="font-size: 2.5rem; color: #38bdf8; margin-bottom: 0.5rem;">
+                <i class="fas fa-brain fa-spin"></i>
+            </div>
+            <h3 class="processing-title">AI is analyzing your financial patterns...</h3>
+            <p style="color: #cbd5e1; font-size: 0.95rem; margin-top: 0.35rem;">
+                Evaluating income ratios, category budget benchmarks, and goal feasibility.
+            </p>
+        </div>
+
+        <div class="processing-steps-grid">
+            <div class="processing-step-chip" id="step-income"><i class="fas fa-circle-notch fa-spin"></i> Income •••</div>
+            <div class="processing-step-chip" id="step-expenses"><i class="fas fa-circle-notch fa-spin"></i> Expenses •••</div>
+            <div class="processing-step-chip" id="step-budget"><i class="fas fa-circle-notch fa-spin"></i> Budget analysis •••</div>
+            <div class="processing-step-chip" id="step-ai"><i class="fas fa-circle-notch fa-spin"></i> AI recommendations •••</div>
+        </div>
+    </div>
+
+    <!-- ==========================================
+         19. EMPTY STATE CARD
+         ========================================== -->
+    <div class="empty-state-card" id="emptyStateCard">
+        <div class="empty-state-icon">
+            <i class="fas fa-chart-pie"></i>
+        </div>
+        <h3 class="empty-state-title">Your financial insights will appear here</h3>
+        <p class="empty-state-desc">
+            Enter your income and expenses above to let AI analyze your finances, evaluate your health score, and generate personalized budget recommendations.
+        </p>
+    </div>
+
+    <!-- ==========================================
+         20. ERROR STATE CARD
+         ========================================== -->
+    <div class="error-card-state" id="errorCardState">
+        <div class="error-icon-box">
+            <i class="fas fa-exclamation-triangle"></i>
+        </div>
+        <h3 style="font-size: 1.4rem; font-weight: 800; color: var(--text-primary); margin-bottom: 0.5rem;">Something went wrong</h3>
+        <p style="font-size: 0.95rem; color: var(--text-secondary); max-width: 500px; margin: 0 auto 1.5rem auto;">
+            We couldn't generate your financial analysis right now. Please check your connection and try again.
+        </p>
+        <button class="btn btn-primary" id="tryAgainBtn">
+            <i class="fas fa-redo"></i> Try Again
+        </button>
+    </div>
+
+    <!-- ==========================================
+         7. RESULTS DASHBOARD (REVEALED ON SUBMIT)
+         ========================================== -->
+    <div class="results-container" id="resultsContainer">
+        
+        <!-- SECTION TITLE -->
+        <div class="section-header" style="margin-bottom: 1.5rem;">
+            <h2 class="section-title">Your Financial Snapshot</h2>
+            <p class="section-subtitle">Comprehensive breakdown of your health score, category allocations, and AI guidance.</p>
+        </div>
+
+        <!-- 4 SUMMARY CARDS -->
+        <div class="snapshot-grid">
+            <div class="snapshot-card">
+                <div class="snapshot-header">
+                    <span>Monthly Income</span>
+                    <div class="snapshot-icon cat-food"><i class="fas fa-arrow-down"></i></div>
+                </div>
+                <div class="snapshot-value" id="res-income">₹0</div>
+                <div class="snapshot-footer"><i class="fas fa-check-circle" style="color:var(--emerald-600);"></i> Total Income Logged</div>
+            </div>
+
+            <div class="snapshot-card">
+                <div class="snapshot-header">
+                    <span>Total Expenses</span>
+                    <div class="snapshot-icon cat-dining"><i class="fas fa-arrow-up"></i></div>
+                </div>
+                <div class="snapshot-value" id="res-expenses">₹0</div>
+                <div class="snapshot-footer"><i class="fas fa-receipt" style="color:var(--danger-red);"></i> Sum of 8 Categories</div>
+            </div>
+
+            <div class="snapshot-card">
+                <div class="snapshot-header">
+                    <span>Recommended Savings</span>
+                    <div class="snapshot-icon cat-savings"><i class="fas fa-piggy-bank"></i></div>
+                </div>
+                <div class="snapshot-value" id="res-savings">₹0</div>
+                <div class="snapshot-footer" id="res-savings-sub">0% of income saved</div>
+            </div>
+
+            <div class="snapshot-card">
+                <div class="snapshot-header">
+                    <span>Financial Health</span>
+                    <div class="snapshot-icon cat-utilities"><i class="fas fa-heart-pulse"></i></div>
+                </div>
+                <div class="snapshot-value" id="res-health-status">Good</div>
+                <div class="snapshot-footer"><i class="fas fa-shield-alt" style="color:var(--accent-blue);"></i> Calculated Math Metric</div>
+            </div>
+        </div>
+
+        <!-- 8. FINANCIAL HEALTH CARD WITH CIRCULAR GAUGE -->
+        <div class="health-card">
+            <div class="gauge-wrapper">
+                <svg class="gauge-svg" viewBox="0 0 120 120">
+                    <circle class="gauge-bg" cx="60" cy="60" r="54"></circle>
+                    <circle class="gauge-fill" id="gaugeFill" cx="60" cy="60" r="54"></circle>
+                </svg>
+                <div class="gauge-center-text">
+                    <div class="gauge-score" id="gaugeScore">85</div>
+                    <div class="gauge-label">SCORE</div>
+                </div>
+            </div>
+
+            <div class="health-details">
+                <div class="health-badge good" id="gaugeBadge">
+                    <i class="fas fa-shield-alt"></i> Financial Health: Good
+                </div>
+                <div class="health-explanation" id="gaugeRationale">
+                    Your financial metrics indicate a healthy balance between mandatory living costs and discretionary spending.
+                </div>
+            </div>
+        </div>
+
+        <!-- 9. PERSONALIZED BUDGET GRID -->
+        <div class="section-card">
+            <div class="section-header">
+                <h3 class="section-title">Your Personalized Budget</h3>
+                <p class="section-subtitle">Recommended category allocations based on standard 50/30/20 financial guidelines.</p>
+            </div>
+
+            <div class="budget-grid" id="budgetCardsGrid">
+                <!-- Dynamically Populated by analyzer.js -->
+            </div>
+        </div>
+
+        <!-- 10. SPENDING ANALYSIS -->
+        <div class="section-card">
+            <div class="section-header">
+                <h3 class="section-title">Spending Analysis</h3>
+                <p class="section-subtitle">Real-time benchmark verification for each expense category.</p>
+            </div>
+
+            <div class="analysis-chips-grid" id="spendingAnalysisChips">
+                <!-- Dynamically Populated by analyzer.js -->
+            </div>
+        </div>
+
+        <!-- 11. AI SAVING SUGGESTIONS -->
+        <div class="section-card">
+            <div class="section-header">
+                <h3 class="section-title">AI Saving Suggestions</h3>
+                <p class="section-subtitle">Personalized actions based on your spending behavior</p>
+            </div>
+
+            <div class="suggestions-list" id="savingSuggestionsList">
+                <!-- Dynamically Populated by analyzer.js -->
+            </div>
+        </div>
+
+        <!-- 12. AI FINANCIAL INSIGHT SECTION -->
+        <div class="insight-card">
+            <div class="insight-header">
+                <div class="insight-icon-box">
+                    <i class="fas fa-robot"></i>
+                </div>
+                <div>
+                    <h3 class="insight-title">Your AI Financial Insight</h3>
+                    <p style="font-size: 0.85rem; color: var(--text-secondary);">Generated dynamically by Google Gemini AI</p>
+                </div>
+            </div>
+
+            <div class="insight-body" id="aiInsightContent">
+                <!-- Dynamically Populated by analyzer.js -->
+            </div>
+        </div>
+
+        <!-- 13. SPENDING BREAKDOWN CHART -->
+        <div class="section-card">
+            <div class="section-header">
+                <h3 class="section-title">Spending Breakdown Visualization</h3>
+                <p class="section-subtitle">Proportional distribution of monthly expense allocations.</p>
+            </div>
+
+            <div style="height: 320px; position: relative; max-width: 550px; margin: 0 auto;">
+                <canvas id="breakdownChartCanvas"></canvas>
+            </div>
+        </div>
+
+    </div>
+
+</div>
+{% endblock %}
+
+{% block scripts %}
+<script src="{{ url_for('static', filename='js/analyzer.js') }}"></script>
+{% endblock %}

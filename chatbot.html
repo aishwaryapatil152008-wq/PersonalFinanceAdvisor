@@ -1,0 +1,59 @@
+{% extends "base.html" %}
+
+{% block title %}AI Advisor — FinanceAI{% endblock %}
+
+{% block content %}
+<div class="page-header">
+    <div>
+        <h1 class="page-title">AI Personal Finance Advisor</h1>
+        <p class="page-subtitle">Get instant, educational financial counseling and budgeting advice powered by Google Gemini.</p>
+    </div>
+</div>
+
+<div class="chat-container" style="margin-bottom: 2.5rem;">
+    <!-- Chat Header -->
+    <div class="chat-header">
+        <div class="chat-header-icon">
+            <i class="fas fa-robot"></i>
+        </div>
+        <div>
+            <h3 style="font-size: 1.2rem; font-weight: 800; color: #ffffff;">Personal Finance Advisor Bot</h3>
+            <p style="font-size: 0.83rem; color: #cbd5e1; display: flex; align-items: center; gap: 0.4rem; margin-top: 0.15rem;">
+                <span style="width: 8px; height: 8px; background: #10b981; border-radius: 50%; display: inline-block;"></span> Online &bull; Ready to assist with budgeting & savings
+            </p>
+        </div>
+    </div>
+
+    <!-- Chat Message History Body -->
+    <div class="chat-body" id="chatBody">
+        <div class="chat-message bot">
+            <div class="avatar"><i class="fas fa-robot"></i></div>
+            <div class="message-bubble">
+                Hello! 👋 I am your <strong>AI Personal Finance Advisor Bot</strong>.<br><br>
+                I can help you understand budgeting, expense management, saving strategies, emergency funds, and basic financial concepts.<br><br>
+                <em>How can I assist you with your money management today?</em>
+            </div>
+        </div>
+    </div>
+
+    <!-- Quick Prompt Chips -->
+    <div class="chat-chips">
+        <button type="button" class="chip-btn"><i class="fas fa-lightbulb" style="color:var(--warning-orange);"></i> How can I reduce my monthly expenses?</button>
+        <button type="button" class="chip-btn"><i class="fas fa-graduation-cap" style="color:var(--primary-blue);"></i> How should a student create a budget?</button>
+        <button type="button" class="chip-btn"><i class="fas fa-balance-scale" style="color:var(--emerald-600);"></i> What is the difference between needs and wants?</button>
+        <button type="button" class="chip-btn"><i class="fas fa-piggy-bank" style="color:var(--ai-purple);"></i> Explain emergency funds in simple English.</button>
+    </div>
+
+    <!-- Chat Input Form -->
+    <form id="chatForm" class="chat-footer">
+        <input type="text" class="form-control" id="chatInput" placeholder="Type your financial question here..." required autocomplete="off">
+        <button type="submit" class="btn btn-ai">
+            <i class="fas fa-paper-plane"></i> Send
+        </button>
+    </form>
+</div>
+{% endblock %}
+
+{% block scripts %}
+<script src="{{ url_for('static', filename='js/chatbot.js') }}"></script>
+{% endblock %}

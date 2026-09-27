@@ -1,0 +1,173 @@
+{% extends "base.html" %}
+
+{% block title %}Dashboard — FinanceAI{% endblock %}
+
+{% block content %}
+<div class="page-header">
+    <div>
+        <h1 class="page-title">Financial Dashboard</h1>
+        <p class="page-subtitle">Real-time overview of your income, expenses, savings, and monthly budget.</p>
+    </div>
+    <div style="display: flex; gap: 0.85rem; flex-wrap: wrap;">
+        <button class="btn btn-primary" id="openQuickAddBtn">
+            <i class="fas fa-plus-circle"></i> Quick Add Record
+        </button>
+        <a href="{{ url_for('main_bp.chatbot') }}" class="btn btn-ai">
+            <i class="fas fa-robot"></i> Ask AI Assistant
+        </a>
+    </div>
+</div>
+
+<!-- Metrics Cards Grid -->
+<div class="metrics-grid">
+    <div class="metric-card income">
+        <div class="metric-header">
+            <span>Total Income</span>
+            <div class="metric-icon"><i class="fas fa-arrow-down"></i></div>
+        </div>
+        <div class="metric-value" id="total-income">₹0</div>
+        <div class="metric-footer"><i class="fas fa-check-circle" style="color:var(--emerald-600);"></i> All recorded income</div>
+    </div>
+
+    <div class="metric-card expense">
+        <div class="metric-header">
+            <span>Total Expenses</span>
+            <div class="metric-icon"><i class="fas fa-arrow-up"></i></div>
+        </div>
+        <div class="metric-value" id="total-expenses">₹0</div>
+        <div class="metric-footer"><i class="fas fa-exclamation-circle" style="color:var(--danger-red);"></i> All recorded expenses</div>
+    </div>
+
+    <div class="metric-card balance">
+        <div class="metric-header">
+            <span>Current Balance</span>
+            <div class="metric-icon"><i class="fas fa-wallet"></i></div>
+        </div>
+        <div class="metric-value" id="current-balance">₹0</div>
+        <div class="metric-footer"><i class="fas fa-calculator"></i> Income − Expenses</div>
+    </div>
+
+    <div class="metric-card savings">
+        <div class="metric-header">
+            <span>Estimated Savings</span>
+            <div class="metric-icon"><i class="fas fa-piggy-bank"></i></div>
+        </div>
+        <div class="metric-value" id="estimated-savings">₹0</div>
+        <div class="metric-footer" id="savings-percentage">0% of income saved</div>
+    </div>
+
+    <div class="metric-card budget">
+        <div class="metric-header">
+            <span>Monthly Budget</span>
+            <div class="metric-icon"><i class="fas fa-bullseye"></i></div>
+        </div>
+        <div class="metric-value" id="monthly-budget">₹0</div>
+        <div class="progress-container">
+            <div class="progress-bar safe" id="dashboard-budget-bar" style="width: 0%;"></div>
+        </div>
+        <div style="display: flex; justify-content: space-between; align-items: center; margin-top: 0.35rem;">
+            <span id="dashboard-budget-alert" class="badge badge-income">Within Budget</span>
+            <span style="font-size: 0.85rem; font-weight: 800;" id="budget-percent">0%</span>
+        </div>
+    </div>
+
+    <div class="metric-card">
+        <div class="metric-header">
+            <span>Remaining Budget</span>
+            <div class="metric-icon" style="background:rgba(56,189,248,0.12); color:#0284c7;"><i class="fas fa-hourglass-half"></i></div>
+        </div>
+        <div class="metric-value" id="remaining-budget">₹0</div>
+        <div class="metric-footer"><i class="fas fa-info-circle"></i> Monthly Target − Expenses</div>
+    </div>
+</div>
+
+<!-- Main Section: Recent Transactions & Category Breakdown -->
+<div style="display: grid; grid-template-columns: 2fr 1fr; gap: 1.75rem; margin-bottom: 2.5rem;">
+    <!-- Recent Transactions Table Card -->
+    <div class="table-card">
+        <div class="table-header-bar">
+            <div>
+                <h3 style="font-size: 1.15rem; font-weight: 800; color: var(--text-primary);">Recent Transactions</h3>
+                <p style="font-size: 0.83rem; color: var(--text-muted);">Latest financial activity recorded in database.</p>
+            </div>
+            <a href="{{ url_for('main_bp.transactions') }}" class="btn btn-secondary btn-sm">
+                View Ledger <i class="fas fa-arrow-right"></i>
+            </a>
+        </div>
+        <div class="table-responsive">
+            <table class="custom-table">
+                <thead>
+                    <tr>
+                        <th>Date</th>
+                        <th>Type</th>
+                        <th>Category</th>
+                        <th>Description</th>
+                        <th>Amount</th>
+                    </tr>
+                </thead>
+                <tbody id="recent-transactions-body">
+                    <tr><td colspan="5" style="text-align: center; color: var(--text-muted); padding: 2rem;">Loading recent transactions...</td></tr>
+                </tbody>
+            </table>
+        </div>
+    </div>
+
+    <!-- Category Expense Breakdown Chart Card -->
+    <div class="table-card" style="padding: 1.5rem;">
+        <h3 style="font-size: 1.15rem; font-weight: 800; color: var(--text-primary); margin-bottom: 1rem;">Spending by Category</h3>
+        <div style="height: 290px; position: relative;">
+            <canvas id="dashboardCategoryChart"></canvas>
+        </div>
+    </div>
+</div>
+
+<!-- Quick Add Modal -->
+<div class="modal-overlay" id="quickAddModal">
+    <div class="modal-content">
+        <div class="modal-header">
+            <h3 class="modal-title"><i class="fas fa-plus-circle" style="color:var(--primary-blue);"></i> Quick Add Transaction</h3>
+            <button class="modal-close" id="closeQuickAddBtn">&times;</button>
+        </div>
+        <form id="quickAddForm">
+            <div class="form-group">
+                <label class="form-label">Transaction Type</label>
+                <select class="form-select" id="quickType" required>
+                    <option value="expense">Expense</option>
+                    <option value="income">Income</option>
+                </select>
+            </div>
+
+            <div class="form-group">
+                <label class="form-label">Amount (₹)</label>
+                <input type="number" step="0.01" min="0.01" class="form-control" id="quickAmount" placeholder="e.g. 500" required>
+            </div>
+
+            <div class="form-group">
+                <label class="form-label">Category</label>
+                <select class="form-select" id="quickCategory" required>
+                    <!-- Options populated dynamically -->
+                </select>
+            </div>
+
+            <div class="form-group">
+                <label class="form-label">Date</label>
+                <input type="date" class="form-control" id="quickDate">
+            </div>
+
+            <div class="form-group">
+                <label class="form-label">Description</label>
+                <input type="text" class="form-control" id="quickDescription" placeholder="e.g. Lunch at Cafe">
+            </div>
+
+            <div style="display: flex; justify-content: flex-end; gap: 0.85rem; margin-top: 1.75rem;">
+                <button type="button" class="btn btn-secondary" onclick="document.getElementById('quickAddModal').classList.remove('active')">Cancel</button>
+                <button type="submit" class="btn btn-primary"><i class="fas fa-save"></i> Save Transaction</button>
+            </div>
+        </form>
+    </div>
+</div>
+{% endblock %}
+
+{% block scripts %}
+<script src="{{ url_for('static', filename='js/dashboard.js') }}"></script>
+{% endblock %}
