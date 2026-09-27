@@ -1,0 +1,21 @@
+# Python environment
+venv/
+.venv/
+__pycache__/
+*.pyc
+*.pyo
+*.pyd
+.pytest_cache/
+
+# Environment variables & secrets
+.env
+
+# Database
+instance/
+*.db
+*.sqlite3
+
+# IDE / Editor
+.vscode/
+.idea/
+.DS_Store
