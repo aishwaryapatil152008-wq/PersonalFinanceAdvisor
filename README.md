@@ -3,7 +3,9 @@
 A full-stack, responsive, AI-powered personal finance management web application built as an **AI-ML Engineering Capstone Project**.
 
 The application helps users record income and expenses, set and monitor monthly budgets, visualize spending patterns through interactive Chart.js analytics, and receive personalized educational financial advice powered by **Google Gemini API**.
+
 Live Demo - https://drive.google.com/file/d/1B7joln8UZU2pFHf6TgrS7jpZ2TCr7A9_/view?usp=sharing
+
 Documentation - https://drive.google.com/file/d/1x70UGVPvaWckEYUHKx4J_cW13eC_AR4c/view?usp=sharing
 
 ---
